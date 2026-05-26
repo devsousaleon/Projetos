@@ -54,9 +54,11 @@ namespace Database_Books.Forms
 
                             File.WriteAllBytes(caminhoArquivo, pdfBytes);
 
-                            var pdfviewer = new PdfViewer();
-                            pdfviewer.Dock = DockStyle.Fill;
-                            pdfviewer.Document = PdfDocument.Load(caminhoArquivo);
+                            var pdfviewer = new PdfViewer
+                            {
+                                Dock = DockStyle.Fill,
+                                Document = PdfDocument.Load(caminhoArquivo)
+                            };
 
                             panelVisualizaPDF.Controls.Clear();
                             panelVisualizaPDF.Controls.Add(pdfviewer);
