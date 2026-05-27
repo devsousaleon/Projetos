@@ -1,25 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace Database_Books
 {
     public partial class TelaInicial: UserControl
     {
-        public TelaInicial(FormLogin FL)
+        public TelaInicial(FormLogin formLivro)
         {
             InitializeComponent();
-            lblOlaUser.Text = "Olá " + FL.NomeUsuario + ", o que vamos ler hoje?";
+            lblOlaUser.Text = "Olá " + formLivro.NomeUsuario + ", o que vamos ler hoje?";
         }
 
-        private void TelaInicial_Load(object sender, EventArgs e)
+        void TelaInicial_Load(object sender, EventArgs e)
         {
             //INFORMAÇÕES DE LIVROS EM LEITURA
 

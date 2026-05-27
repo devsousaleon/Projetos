@@ -1,5 +1,4 @@
-﻿
-namespace Database_Books.DataBaseClass
+﻿namespace Database_Books.DataBaseClass
 {  
     public class UsuarioData
     {

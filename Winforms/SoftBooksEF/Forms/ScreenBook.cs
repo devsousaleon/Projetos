@@ -6,25 +6,25 @@ namespace Database_Books
 {
     public partial class ScreenBook : Form
     {
-        private FormLogin loginForm;
+        private readonly FormLogin _loginForm;
 
         public ScreenBook(FormLogin loginForm)
         {
             InitializeComponent();
-            this.loginForm = loginForm;
+            this._loginForm = loginForm;
         }
 
-        public void CarregarTela(UserControl NovaTela)
+        public void CarregarTela(UserControl novaTela)
         {
             panelTelas.Controls.Clear();
-            NovaTela.Dock = DockStyle.Fill;
-            panelTelas.Controls.Add(NovaTela);
+            novaTela.Dock = DockStyle.Fill;
+            panelTelas.Controls.Add(novaTela);
         }
 
         #region Buttons_LoadScreen
         void btnHome_Click(object sender, EventArgs e)
         {
-            CarregarTela(new TelaInicial(this.loginForm));
+            CarregarTela(new TelaInicial(this._loginForm));
         }
         void btnCadastrarLivro_Click(object sender, EventArgs e)
         {
@@ -34,29 +34,28 @@ namespace Database_Books
         {
             CarregarTela(new TelaLivros(this));
         }
-        private void btnUsuarios_Click(object sender, EventArgs e)
+        void btnUsuarios_Click(object sender, EventArgs e)
         {
             CarregarTela(new TelaUsuarios());
         }
-        private void btnSobre_Click(object sender, EventArgs e)
+        void btnSobre_Click(object sender, EventArgs e)
         {
             CarregarTela(new TelaSobre());
         }
         #endregion
 
-        private void ScreenBook_Load(object sender, EventArgs e)
+        void ScreenBook_Load(object sender, EventArgs e)
         {
-            CarregarTela(new TelaInicial(this.loginForm));
+            CarregarTela(new TelaInicial(this._loginForm));
         }
-        private void btnRelatorios_Click(object sender, EventArgs e)
+        void btnRelatorios_Click(object sender, EventArgs e)
         {
             CarregarTela(new TelaRelatorios());
         }
 
-        private void ScreenBook_FormClosed(object sender, FormClosedEventArgs e)
+        void ScreenBook_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
-        }
-        
+        }        
     }
 }

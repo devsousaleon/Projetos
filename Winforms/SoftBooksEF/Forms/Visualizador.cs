@@ -2,31 +2,25 @@
 using Microsoft.EntityFrameworkCore;
 using PdfiumViewer;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Database_Books.Forms
 {
     public partial class VisualizadorPDF : Form
     {
-        private TelaLivros TL;
-        string caminhoArquivo = Path.Combine("C:\\SoftBooks\\TempPDF", "ArquivoPDF_Temp.pdf");
+        private readonly TelaLivros _telaLivros;
+        string _caminhoArquivo = Path.Combine("C:\\SoftBooks\\TempPDF", "ArquivoPDF_Temp.pdf");
 
-        public VisualizadorPDF(TelaLivros TL)
+        public VisualizadorPDF(TelaLivros telaLivros)
         {
             InitializeComponent();
-            this.TL = TL;
+            this._telaLivros = telaLivros;
         }
 
-        private async void VisualizadorPDF_Load(object sender, EventArgs e)
+        async void VisualizadorPDF_Load(object sender, EventArgs e)
         {            
             if (!Directory.Exists("C:\\SoftBooks\\TempPDF"))
                 Directory.CreateDirectory("C:\\SoftBooks\\TempPDF");
@@ -36,7 +30,7 @@ namespace Database_Books.Forms
                 using (var _context = new DataDbContext())
                 {
                     var BuscaIdCadastro = await _context.LeituraLivros
-                        .Where(x => x.Id == TL.IdSelecionado)
+                        .Where(x => x.Id == _telaLivros.IdSelecionado)
                         .Select(x => x.CadastroLivroId)
                         .FirstOrDefaultAsync();
 
@@ -50,14 +44,14 @@ namespace Database_Books.Forms
 
                         if (pdfBytes != null)
                         {
-                            caminhoArquivo = Path.Combine(caminhoArquivo);
+                            _caminhoArquivo = Path.Combine(_caminhoArquivo);
 
-                            File.WriteAllBytes(caminhoArquivo, pdfBytes);
+                            File.WriteAllBytes(_caminhoArquivo, pdfBytes);
 
                             var pdfviewer = new PdfViewer
                             {
                                 Dock = DockStyle.Fill,
-                                Document = PdfDocument.Load(caminhoArquivo)
+                                Document = PdfDocument.Load(_caminhoArquivo)
                             };
 
                             panelVisualizaPDF.Controls.Clear();
@@ -78,7 +72,7 @@ namespace Database_Books.Forms
             }
         }
 
-        private void VisualizadorPDF_FormClosed(object sender, FormClosedEventArgs e)
+        void VisualizadorPDF_FormClosed(object sender, FormClosedEventArgs e)
         {
             foreach (Control control in panelVisualizaPDF.Controls)
             {
@@ -90,10 +84,10 @@ namespace Database_Books.Forms
             }
             panelVisualizaPDF.Controls.Clear();
 
-            if (!string.IsNullOrEmpty(caminhoArquivo)
-                && File.Exists(caminhoArquivo))
+            if (!string.IsNullOrEmpty(_caminhoArquivo)
+                && File.Exists(_caminhoArquivo))
             {
-                File.Delete(caminhoArquivo);
+                File.Delete(_caminhoArquivo);
             }
         }
     }

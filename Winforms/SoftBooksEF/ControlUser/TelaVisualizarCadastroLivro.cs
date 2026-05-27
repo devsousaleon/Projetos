@@ -1,37 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Data.SqlClient;
+﻿using Database_Books.DataBaseClass;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Globalization;
 using System.IO;
-using iTextSharp.text.pdf;
-using System.Runtime.InteropServices;
-using Microsoft.EntityFrameworkCore;
-using Database_Books.DataBaseClass;
+using System.Windows.Forms;
 
 namespace Database_Books.ControlUser
 {
     public partial class TelaVisualizarCadastroLivro: UserControl
     {
-        private ScreenBook screenbook;
-        private TelaCadastroLivro TCL;
+        private readonly ScreenBook _screenbook;
+        private readonly TelaCadastroLivro _telaCadastroLivro;
 
-        public TelaVisualizarCadastroLivro(ScreenBook screenbook, TelaCadastroLivro TCL)
+        public TelaVisualizarCadastroLivro(ScreenBook screenbook, TelaCadastroLivro telaCadastroLivro)
         {
             InitializeComponent();
-            this.screenbook = screenbook;
-            this.TCL = TCL;
+            this._screenbook = screenbook;
+            this._telaCadastroLivro = telaCadastroLivro;
         }
 
-        private async void TelaVisualizarCadastroLivro_Load(object sender, EventArgs e)
+        async void TelaVisualizarCadastroLivro_Load(object sender, EventArgs e)
         {
-            int IdTelaCadastroLivro = TCL.IdSelecionado;
+            int IdTelaCadastroLivro = _telaCadastroLivro.IdSelecionado;
 
             try
             {
@@ -74,18 +64,18 @@ namespace Database_Books.ControlUser
             }
         }
 
-        private void btnFecharVisualizaCadastroLivro_Click(object sender, EventArgs e)
+        void btnFecharVisualizaCadastroLivro_Click(object sender, EventArgs e)
         {
             DialogResult Resul = MessageBox.Show("Deseja fechar as informações deste cadastro de livro? ", "Dúvida", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
             if (Resul == DialogResult.Yes)
             {
-                this.screenbook.CarregarTela(new TelaCadastroLivro(this.screenbook));
+                this._screenbook.CarregarTela(new TelaCadastroLivro(this._screenbook));
             }            
         }
 
-        private async void btnSalvarVisualizarCadastroLivro_Click(object sender, EventArgs e)
+        async void btnSalvarVisualizarCadastroLivro_Click(object sender, EventArgs e)
         {
-            int IdTelaCadastroLivro = TCL.IdSelecionado;
+            int IdTelaCadastroLivro = _telaCadastroLivro.IdSelecionado;
             int? nseq = null;
             decimal? valor = null;
 
@@ -122,7 +112,7 @@ namespace Database_Books.ControlUser
 
                 }
                 MessageBox.Show("Atualização de informações efetuada com sucesso!", "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.screenbook.CarregarTela(new TelaCadastroLivro(this.screenbook));
+                this._screenbook.CarregarTela(new TelaCadastroLivro(this._screenbook));
             }
             catch (Exception ex)
             {
@@ -130,9 +120,9 @@ namespace Database_Books.ControlUser
             }
         }
 
-        private async void btnExcluirCadastroLivro_Click(object sender, EventArgs e)
+        async void btnExcluirCadastroLivro_Click(object sender, EventArgs e)
         {
-            int IdCadastroLivro = TCL.IdSelecionado;
+            int IdCadastroLivro = _telaCadastroLivro.IdSelecionado;
 
             try
             {
@@ -169,7 +159,7 @@ namespace Database_Books.ControlUser
             }
         }
 
-        private async void btnAdicionarPDF_Click(object sender, EventArgs e)
+        async void btnAdicionarPDF_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFile = new OpenFileDialog())
             {
@@ -188,7 +178,7 @@ namespace Database_Books.ControlUser
                             {
                                 NomeArquivo = NomeArquivoPDF,
                                 ConteudoPDF = pdfByte,
-                                CadastroLivroId = TCL.IdSelecionado
+                                CadastroLivroId = _telaCadastroLivro.IdSelecionado
                             };
 
                             _context.Add(IncluirPDF);

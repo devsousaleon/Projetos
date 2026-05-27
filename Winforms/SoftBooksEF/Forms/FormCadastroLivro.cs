@@ -1,32 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using Database_Books.DataBaseClass;
+using System;
 using System.Globalization;
 using System.IO;
-using System.Security.Cryptography;
-using Microsoft.EntityFrameworkCore;
-using Database_Books.DataBaseClass;
+using System.Windows.Forms;
 
 namespace Database_Books
 {
     public partial class FormCadastroLivro: Form
     {
-        private TelaCadastroLivro TCL;
+        private readonly TelaCadastroLivro _telaCadastroLivro;
 
-        public FormCadastroLivro(TelaCadastroLivro TCL)
+        public FormCadastroLivro(TelaCadastroLivro telaCadastroLivro)
         {
             InitializeComponent();
-            this.TCL = TCL;
+            this._telaCadastroLivro = telaCadastroLivro;
         }
 
-        private void checkBoxSeqCadastro_CheckedChanged(object sender, EventArgs e)
+        void checkBoxSeqCadastro_CheckedChanged(object sender, EventArgs e)
         {
             txtSeqCadastro.ReadOnly = !checkBoxSeqCadastro.Checked;  
             txtNSequenciaLivro.ReadOnly = !checkBoxSeqCadastro.Checked;
@@ -37,7 +27,7 @@ namespace Database_Books
             }
         }
 
-        private void btnCancelarCadastro_Click(object sender, EventArgs e)
+        void btnCancelarCadastro_Click(object sender, EventArgs e)
         {
             DialogResult Resul = MessageBox.Show("Deseja fechar a tela de cadastro de livro?", "Dúvida",MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
 
@@ -45,9 +35,8 @@ namespace Database_Books
             {
                 this.Close();
             }
-        }
-
-        private async void btnIncluirLivro_Click(object sender, EventArgs e)
+        }        
+        async void btnIncluirLivro_Click(object sender, EventArgs e)
         {
             object result_insert_cadastroId = 0;
             int IdCadastroLivro = 0;
@@ -146,7 +135,7 @@ namespace Database_Books
                     }
                 }
                 
-                TCL.BuscarCadastroLivro();
+                _telaCadastroLivro.BuscarCadastroLivro();
                 this.Close();
             }
             catch (Exception ex)
@@ -155,7 +144,7 @@ namespace Database_Books
             }            
         }
 
-        private void txtNPaginasCadastro_KeyPress(object sender, KeyPressEventArgs e)
+        void txtNPaginasCadastro_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
             {
@@ -163,7 +152,7 @@ namespace Database_Books
             }
         }
 
-        private void txtValorLivro_KeyPress(object sender, KeyPressEventArgs e)
+        void txtValorLivro_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
             {
@@ -171,7 +160,7 @@ namespace Database_Books
             }
         }
 
-        private void txtNSequenciaLivro_KeyPress(object sender, KeyPressEventArgs e)
+        void txtNSequenciaLivro_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
             {

@@ -3,33 +3,24 @@ using Database_Books.DataBaseClass;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Database_Books.Forms
 {
     public partial class InclusaoLeitura : Form
     {
+        readonly List<KeyValuePair<int, string>> _nomeLivro = new List<KeyValuePair<int, string>>();
+        readonly List<KeyValuePair<int, string>> _leitor = new List<KeyValuePair<int, string>>();
+        TelaLivros _telaLivros;
 
-        List<KeyValuePair<int, string>> NomeLivro = new List<KeyValuePair<int, string>>();
-        List<KeyValuePair<int, string>> Leitor = new List<KeyValuePair<int, string>>();
-        TelaLivros TL;
-
-        public InclusaoLeitura(TelaLivros TL)
+        public InclusaoLeitura(TelaLivros telaLivros)
         {
             InitializeComponent();
-            this.TL = TL;
+            this._telaLivros = telaLivros;
         }
 
-        private async void InclusaoLeitura_Load(object sender, EventArgs e)
+        async void InclusaoLeitura_Load(object sender, EventArgs e)
         {
             try
             {
@@ -40,7 +31,7 @@ namespace Database_Books.Forms
 
                     foreach (var livro in CarregaNomeLivro)
                     {
-                        NomeLivro.Add(new KeyValuePair<int, string>(
+                        _nomeLivro.Add(new KeyValuePair<int, string>(
                             livro.Id,
                             livro.NomeLivro
                             ));
@@ -49,18 +40,18 @@ namespace Database_Books.Forms
 
                     foreach (var user in CarregaNomeLeitor)
                     {
-                        Leitor.Add(new KeyValuePair<int, string>(
+                        _leitor.Add(new KeyValuePair<int, string>(
                             user.Id,
                             user.NomeUsuario
                             ));
                     }
                 }
 
-                BoxLivros.DataSource = NomeLivro;
+                BoxLivros.DataSource = _nomeLivro;
                 BoxLivros.DisplayMember = "Value";
                 BoxLivros.ValueMember = "Key";
 
-                BoxLeitor.DataSource = Leitor;
+                BoxLeitor.DataSource = _leitor;
                 BoxLeitor.DisplayMember = "Value";
                 BoxLeitor.ValueMember = "Key";
             }
@@ -70,7 +61,7 @@ namespace Database_Books.Forms
             }
         }
 
-        private void txtValorEmprestimo_KeyPress(object sender, KeyPressEventArgs e)
+        void txtValorEmprestimo_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
             {
@@ -78,7 +69,7 @@ namespace Database_Books.Forms
             }
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
+        void btnCancelar_Click(object sender, EventArgs e)
         {
             DialogResult Resul = MessageBox.Show("Deseja cancelar a inclusão da leitura/empréstimo?", "Dúvida", MessageBoxButtons.YesNo, MessageBoxIcon.Question,MessageBoxDefaultButton.Button2);
 
@@ -88,7 +79,7 @@ namespace Database_Books.Forms
             }
         }
 
-        private async void btnIncluirLeituraLivro_Click(object sender, EventArgs e)
+        async void btnIncluirLeituraLivro_Click(object sender, EventArgs e)
         {
             decimal? _ValorEmprestimo = null;
             int IdUsuario = 0;
@@ -151,7 +142,7 @@ namespace Database_Books.Forms
 
                     MessageBox.Show("Informações incluídas corretamente. Boa leitura!! ", "Viaje bastante na imaginação", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
-                    this.TL.CarregarLeituraLivros();
+                    this._telaLivros.CarregarLeituraLivros();
                 }
                 catch (Exception ex)
                 {
@@ -159,7 +150,7 @@ namespace Database_Books.Forms
                 }
         }
 
-        private void tabIncluirLeitura_Selecting(object sender, TabControlCancelEventArgs e)
+        void tabIncluirLeitura_Selecting(object sender, TabControlCancelEventArgs e)
         {
             if ((e.TabPage == tabPageInfoEmprestimo) && checkBoxEmprestimo.Checked == false)
             {

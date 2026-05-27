@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Windows.Forms;
-using System.Data.SqlClient;
-using System.Security.Policy;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace Database_Books
@@ -27,7 +18,7 @@ namespace Database_Books
             set { txtNomeUser.Text = value; }
         }
 
-        private async void btnAcessar_Click(object sender, EventArgs e)
+        async void btnAcessar_Click(object sender, EventArgs e)
         {
             string hash = "";
             bool valido = false;
@@ -76,7 +67,7 @@ namespace Database_Books
                 throw new Exception(ex.Message);
             }
         }
-        private async void btnEsqueciSenha_Click(object sender, EventArgs e)
+        async void btnEsqueciSenha_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtNomeUser.Text))
             {
@@ -106,7 +97,7 @@ namespace Database_Books
             }
         }
 
-        private void FormLogin_FormClosed(object sender, FormClosedEventArgs e)
+        void FormLogin_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
         }

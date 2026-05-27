@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Database_Books.ControlUser;
-using System.Data.SqlClient;
+﻿using Database_Books.ControlUser;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Database_Books
 {
     public partial class TelaCadastroLivro: UserControl
     {
-        private ScreenBook _screenbook;
+        private readonly ScreenBook _screenbook;
         public DataGridView DGV => GridViewCadastroLivro;
         public int IdSelecionado { get; private set; }
 
@@ -42,13 +37,13 @@ namespace Database_Books
             }
         }
         
-        private void btnIncluirCadastroLivro_Click(object sender, EventArgs e)
+        void btnIncluirCadastroLivro_Click(object sender, EventArgs e)
         {
             FormCadastroLivro CL = new FormCadastroLivro(this);
             CL.ShowDialog();
         }
 
-        private void GridViewCadastroLivro_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        void GridViewCadastroLivro_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
@@ -57,7 +52,7 @@ namespace Database_Books
             }            
         }
 
-        private async void btnBuscarCadastroLivro_Click(object sender, EventArgs e)
+        async void btnBuscarCadastroLivro_Click(object sender, EventArgs e)
         {
             string pesquisa = txtBuscaCadastroLivro.Text;
 
@@ -164,7 +159,7 @@ namespace Database_Books
             }
         }
 
-        private void btnLimparBusca_Click(object sender, EventArgs e)
+        void btnLimparBusca_Click(object sender, EventArgs e)
         {
             txtBuscaCadastroLivro.Text = "";
             BoxBuscaPersonalizada.SelectedIndex = -1;

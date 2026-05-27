@@ -1,34 +1,23 @@
 ﻿using Database_Books.Forms;
 using Microsoft.EntityFrameworkCore;
-using PdfiumViewer;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Drawing.Text;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Database_Books.ControlUser
 {
     public partial class TelaVisualizarLeituraLivros : UserControl
     {
-        private TelaLivros TL;
-        private ScreenBook SB;
+        private readonly TelaLivros _telaLivros;
+        private readonly ScreenBook _screenBook;
 
-        public TelaVisualizarLeituraLivros(TelaLivros TL, ScreenBook SB)
+        public TelaVisualizarLeituraLivros(TelaLivros telaLivros, ScreenBook screenBook)
         {
             InitializeComponent();
-            this.TL = TL;
-            this.SB = SB;
+            this._telaLivros = telaLivros;
+            this._screenBook = screenBook;
         }
 
-        private async void TelaVisualizarLeituraLivros_Load(object sender, EventArgs e)
+        async void TelaVisualizarLeituraLivros_Load(object sender, EventArgs e)
         {
             try
             {
@@ -37,7 +26,7 @@ namespace Database_Books.ControlUser
                     var VisualizaLeitura = await _context.LeituraLivros
                                         .Include(livro => livro.CadastroLivro)
                                         .Include(livro => livro.Usuario)
-                                        .FirstOrDefaultAsync(x => x.Id == TL.IdSelecionado);
+                                        .FirstOrDefaultAsync(x => x.Id == _telaLivros.IdSelecionado);
 
                     txtNomeLivro.Text = VisualizaLeitura.CadastroLivro.NomeLivro;
                     txtGeneroLivro.Text = VisualizaLeitura.CadastroLivro.GeneroLivro;
@@ -55,7 +44,7 @@ namespace Database_Books.ControlUser
                 {
                     var PreencheEmprestimo = await _context.EmprestimoLivro
                         .Include(x => x.LeituraLivros)
-                        .FirstOrDefaultAsync(x => x.LeituraLivrosId == TL.IdSelecionado);
+                        .FirstOrDefaultAsync(x => x.LeituraLivrosId == _telaLivros.IdSelecionado);
 
                     if (PreencheEmprestimo != null)
                     {
@@ -78,20 +67,20 @@ namespace Database_Books.ControlUser
             }
         }
 
-        private async void btnSalvarLeituraLivro_Click(object sender, EventArgs e)
+        async void btnSalvarLeituraLivro_Click(object sender, EventArgs e)
         {
             try
             {
                 using (var _context = new DataDbContext())
                 {
-                    var SalvaLeitura = await _context.LeituraLivros.FirstOrDefaultAsync(x => x.Id == TL.IdSelecionado);
+                    var SalvaLeitura = await _context.LeituraLivros.FirstOrDefaultAsync(x => x.Id == _telaLivros.IdSelecionado);
 
                     SalvaLeitura.StatusLeitura = BoxStatus.SelectedItem.ToString();
                     SalvaLeitura.DataFimLeitura = DataFimLeitura.Value;
 
                     await _context.SaveChangesAsync();
                 }
-                this.SB.CarregarTela(new TelaLivros(this.SB));
+                this._screenBook.CarregarTela(new TelaLivros(this._screenBook));
             }
             catch (Exception ex)
             {
@@ -99,16 +88,16 @@ namespace Database_Books.ControlUser
             }
         }
 
-        private void btnCancelarLeituraLivro_Click(object sender, EventArgs e)
+        void btnCancelarLeituraLivro_Click(object sender, EventArgs e)
         {
             DialogResult Resul = MessageBox.Show("Deseja fechar esta tela sem salvar as alterações?", "Dúvida", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (Resul == DialogResult.Yes)
             {
-                this.SB.CarregarTela(new TelaLivros(this.SB));
+                this._screenBook.CarregarTela(new TelaLivros(this._screenBook));
             }
         }
 
-        private async void btnExcluirLeituraLivro_Click(object sender, EventArgs e)
+        async void btnExcluirLeituraLivro_Click(object sender, EventArgs e)
         {
             if (BoxStatus.SelectedIndex == 1 || BoxStatus.SelectedIndex == 3)
             {
@@ -126,7 +115,7 @@ namespace Database_Books.ControlUser
 
                     using (var _context = new DataDbContext())
                     {
-                        var DeletaEmprestimo = await _context.EmprestimoLivro.FirstOrDefaultAsync(x => x.LeituraLivrosId == TL.IdSelecionado);
+                        var DeletaEmprestimo = await _context.EmprestimoLivro.FirstOrDefaultAsync(x => x.LeituraLivrosId == _telaLivros.IdSelecionado);
                         if (DeletaEmprestimo != null)
                         {
                             _context.Remove(DeletaEmprestimo);
@@ -135,12 +124,12 @@ namespace Database_Books.ControlUser
                     }
                     using (var _context = new DataDbContext())
                     {
-                        var DeletaLivro = await _context.LeituraLivros.FirstOrDefaultAsync(x => x.Id == TL.IdSelecionado);
+                        var DeletaLivro = await _context.LeituraLivros.FirstOrDefaultAsync(x => x.Id == _telaLivros.IdSelecionado);
                         _context.Remove(DeletaLivro);
                         await _context.SaveChangesAsync();
                     }
 
-                    this.SB.CarregarTela(new TelaLivros(this.SB));
+                    this._screenBook.CarregarTela(new TelaLivros(this._screenBook));
                 }
                 catch (Exception ex)
                 {
@@ -149,13 +138,13 @@ namespace Database_Books.ControlUser
             }            
         }
 
-        private void btnResumoNota_Click(object sender, EventArgs e)
+        void btnResumoNota_Click(object sender, EventArgs e)
         {
-            ResumoNota RN = new ResumoNota(this.TL);
+            ResumoNota RN = new ResumoNota(this._telaLivros);
             RN.ShowDialog();
         }
 
-        private void BoxStatus_SelectedIndexChanged(object sender, EventArgs e)
+        void BoxStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (BoxStatus.SelectedIndex)
             {
@@ -181,9 +170,9 @@ namespace Database_Books.ControlUser
             }
         }
 
-        private void btnPDFLivro_Click(object sender, EventArgs e)
+        void btnPDFLivro_Click(object sender, EventArgs e)
         {
-            VisualizadorPDF visualizadoPDF = new VisualizadorPDF(TL);
+            VisualizadorPDF visualizadoPDF = new VisualizadorPDF(_telaLivros);
             visualizadoPDF.ShowDialog();
         }
     }

@@ -2,14 +2,7 @@
 {
     public static class ComandosSQL
     {
-        //public static string StrConnection =
-        //    @"Server=192.168.15.20\SQLDEV;" +
-        //    "Database=BookStation;" +
-        //    "User ID=sa;" +
-        //    "Password=admin@123;" +
-        //    "TrustServerCertificate=True;";
-
-        public static string StrConnection = "Server=192.168.15.20,1433;Database=BookStation;User Id=sa;Password=admin@123;";
+        public static string StrConnection = @"Server=192.168.15.20\SQLDEV,1433;Database=BookStation;User Id=sa;Password=admin@123;";
 
         #region CadastroLivro
         public static string BuscaCadastroLivro = "select Id, NomeLivro, GeneroLivro, Autor, Formato from CadastroLivro";

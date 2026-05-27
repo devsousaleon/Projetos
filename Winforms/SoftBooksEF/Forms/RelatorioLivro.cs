@@ -1,28 +1,22 @@
 ﻿using Database_Books.ControlUser;
-using iTextSharp.text.pdf;
 using iTextSharp.text;
+using iTextSharp.text.pdf;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Database_Books.Forms
 {
     public partial class RelatorioLivro : Form
     {
-        private TelaRelatorios telaRelatorios;
+        private readonly TelaRelatorios _telaRelatorios;
 
         public RelatorioLivro(TelaRelatorios telaRelatorios)
         {
             InitializeComponent();
-            this.telaRelatorios = telaRelatorios;
+            this._telaRelatorios = telaRelatorios;
         }
 
         void CarregarRelatorioLivro(string QuerySql, string QueryConnection)
@@ -39,20 +33,20 @@ namespace Database_Books.Forms
             }
         }
 
-        private void RelatorioLivro_Load(object sender, EventArgs e)
+        void RelatorioLivro_Load(object sender, EventArgs e)
         {
-            string status = telaRelatorios.Status;
-            string formato = telaRelatorios.Formato;
-            string datainicioleitura_1 = telaRelatorios.DataInicio_1;
-            string datainicioleitura_2 = telaRelatorios.DataInicio_2;
-            string datafimleitura_1 = telaRelatorios.DataFim_1;
-            string datafimleitura_2 = telaRelatorios.DataFim_2;
-            string dataemprestimo_1 = telaRelatorios._DataEmprestimo_1;
-            string dataemprestimo_2 = telaRelatorios._DataEmprestimo_2;
-            string datadevolucao_1 = telaRelatorios._DataDevolucao_1;
-            string datadevolucao_2 = telaRelatorios._DataDevolucao_2;
+            string status = _telaRelatorios.Status;
+            string formato = _telaRelatorios.Formato;
+            string datainicioleitura_1 = _telaRelatorios.DataInicio_1;
+            string datainicioleitura_2 = _telaRelatorios.DataInicio_2;
+            string datafimleitura_1 = _telaRelatorios.DataFim_1;
+            string datafimleitura_2 = _telaRelatorios.DataFim_2;
+            string dataemprestimo_1 = _telaRelatorios._DataEmprestimo_1;
+            string dataemprestimo_2 = _telaRelatorios._DataEmprestimo_2;
+            string datadevolucao_1 = _telaRelatorios._DataDevolucao_1;
+            string datadevolucao_2 = _telaRelatorios._DataDevolucao_2;
 
-            if (!telaRelatorios.CheckBoxEmprestado)
+            if (!_telaRelatorios.CheckBoxEmprestado)
             {
                 GridViewRelatorioLivro.Columns.Remove(PessoaEmprestimo);
                 GridViewRelatorioLivro.Columns.Remove(DataEmprestimo);
@@ -68,12 +62,12 @@ namespace Database_Books.Forms
                     ComandosSQL.RelLivro += $" and C.Formato = '{formato}'";
                 }
 
-                if (telaRelatorios.DataInicioLeitura_Format_Atual)
+                if (_telaRelatorios.DataInicioLeitura_Format_Atual)
                 {
                     ComandosSQL.RelLivro += $" and L.DataInicioLeitura between '{datainicioleitura_1}' and '{datainicioleitura_2}' ";
                 }
 
-                if (telaRelatorios.DataFimLeitura_Format_Atual)
+                if (_telaRelatorios.DataFimLeitura_Format_Atual)
                 {
                     ComandosSQL.RelLivro += $" and L.DataFimLeitura between '{datafimleitura_1}' and '{datafimleitura_2}' ";
                 }
@@ -87,12 +81,12 @@ namespace Database_Books.Forms
                 GridViewRelatorioLivro.Columns.Remove(DataInicioLeitura);
                 GridViewRelatorioLivro.Columns.Remove(DataFimLeitura);
 
-                if (telaRelatorios.DataEmprestimo_Format_Atual)
+                if (_telaRelatorios.DataEmprestimo_Format_Atual)
                 {
                     ComandosSQL.RelLivroEmprestimo += $" and E.DataEmprestimo between '{dataemprestimo_1}' and '{dataemprestimo_2}'";
                 }
 
-                if (telaRelatorios.DataDevolucao_Format_Atual)
+                if (_telaRelatorios.DataDevolucao_Format_Atual)
                 {
                     ComandosSQL.RelLivroEmprestimo += $" and E.DataDevolucao between '{datadevolucao_1}' and '{datadevolucao_2}'";
                 }
@@ -156,7 +150,7 @@ namespace Database_Books.Forms
             }
         }
 
-        private void btnSalvarPDF_Click(object sender, EventArgs e)
+        void btnSalvarPDF_Click(object sender, EventArgs e)
         {
             ExportarPanelEDataGridParaPDF(GridViewRelatorioLivro);
         }

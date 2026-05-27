@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Data.SqlClient;
+﻿using Database_Books.DataBaseClass;
 using Microsoft.EntityFrameworkCore;
-using Database_Books.DataBaseClass;
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace Database_Books.ControlUser
 {
@@ -37,7 +31,7 @@ namespace Database_Books.ControlUser
             GridViewUsuario.ClearSelection();
         }
 
-        private async void GridViewUsuario_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        async void GridViewUsuario_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int IdUsuario = 0;
 
@@ -72,7 +66,7 @@ namespace Database_Books.ControlUser
         //    return reader.IsDBNull(columnIndex) ? string.Empty : reader.GetString(columnIndex);
         //}
 
-        private void btnLimparUsuario_Click(object sender, EventArgs e)
+        void btnLimparUsuario_Click(object sender, EventArgs e)
         {
             txtNomeLoginUsuario.Text = "";
             txtNomeUsuario.Text = "";
@@ -85,7 +79,7 @@ namespace Database_Books.ControlUser
             GridViewUsuario.ClearSelection();
         }
 
-        private async void btnSalvarUsuario_Click(object sender, EventArgs e)
+        async void btnSalvarUsuario_Click(object sender, EventArgs e)
         {
             //string Bloqueado = "";
 
@@ -128,7 +122,7 @@ namespace Database_Books.ControlUser
             }
         }
 
-        private async void btnIncluir_Click(object sender, EventArgs e)
+        async void btnIncluir_Click(object sender, EventArgs e)
         {
             string hash = BCrypt.Net.BCrypt.HashPassword(txtSenhaUsuario.Text);
 

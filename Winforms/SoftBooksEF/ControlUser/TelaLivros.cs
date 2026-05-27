@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Database_Books.Forms;
-using System.Data.SqlClient;
+﻿using Database_Books.Forms;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Database_Books.ControlUser
 {
@@ -17,15 +12,15 @@ namespace Database_Books.ControlUser
     {
         public int IdSelecionado { get; private set; }
 
-        private ScreenBook _screenbook;
+        private readonly ScreenBook _screenbook;
 
-        public TelaLivros(ScreenBook _screenbook)
+        public TelaLivros(ScreenBook screenbook)
         {
             InitializeComponent();
-            this._screenbook = _screenbook;
+            _screenbook = screenbook;
         }
 
-        private void btnIncluirLivroLendo_Click(object sender, EventArgs e)
+        void btnIncluirLivroLendo_Click(object sender, EventArgs e)
         {
             InclusaoLeitura IL = new InclusaoLeitura(this);
             IL.ShowDialog();
@@ -45,8 +40,7 @@ namespace Database_Books.ControlUser
                 GridViewLivros.Rows.Add(linha.ItemArray);
             }
         }
-
-        private async void btnBuscarLeitura_Click(object sender, EventArgs e)
+        async void btnBuscarLeitura_Click(object sender, EventArgs e)
         {
 
             string pesquisa = txtBuscaLeitura.Text;
@@ -123,13 +117,13 @@ namespace Database_Books.ControlUser
             }                
         }
 
-        private void btnLimparBusca_Click(object sender, EventArgs e)
+        void btnLimparBusca_Click(object sender, EventArgs e)
         {
             txtBuscaLeitura.Text = "";
             BoxBuscaPersonalizada.SelectedIndex = -1;
         }
 
-        private void GridViewLivros_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        void GridViewLivros_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {

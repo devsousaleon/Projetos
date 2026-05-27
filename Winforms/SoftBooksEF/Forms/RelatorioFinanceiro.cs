@@ -1,27 +1,22 @@
 ﻿using Database_Books.ControlUser;
-using iTextSharp.text.pdf;
 using iTextSharp.text;
+using iTextSharp.text.pdf;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Database_Books.Forms
 {
     public partial class RelatorioFinanceiro : Form
     {
-        private TelaRelatorios telaRelatorio;
+        private readonly TelaRelatorios _telaRelatorio;
 
         public RelatorioFinanceiro(TelaRelatorios telaRelatorio)
         {
-            this.telaRelatorio = telaRelatorio;
+            this._telaRelatorio = telaRelatorio;
             InitializeComponent();
         }
 
@@ -40,20 +35,20 @@ namespace Database_Books.Forms
             }
         }
 
-        private void RelatorioFinanceiro_Load(object sender, EventArgs e)
+        void RelatorioFinanceiro_Load(object sender, EventArgs e)
         {
-            if (telaRelatorio.CheckBoxApresentaValorEmprestimo && telaRelatorio.CheckBoxApresentaValorLivro)
+            if (_telaRelatorio.CheckBoxApresentaValorEmprestimo && _telaRelatorio.CheckBoxApresentaValorLivro)
             {
                 CarregarDataTable(ComandosSQL.RelValorLivroEmprestimo, ComandosSQL.StrConnection);
                 return;
             }
-            else if (telaRelatorio.CheckBoxApresentaValorEmprestimo)
+            else if (_telaRelatorio.CheckBoxApresentaValorEmprestimo)
             {
                 GridViewRelatorioFinanceiro.Columns.Remove(ValorLivro);
                 CarregarDataTable(ComandosSQL.RelValorEmprestimo, ComandosSQL.StrConnection);
                 return;
             }
-            else if (telaRelatorio.CheckBoxApresentaValorLivro)
+            else if (_telaRelatorio.CheckBoxApresentaValorLivro)
             {
                 GridViewRelatorioFinanceiro.Columns.Remove(ValorEmprestimo);
                 CarregarDataTable(ComandosSQL.RelValorLivro, ComandosSQL.StrConnection);
@@ -135,7 +130,7 @@ namespace Database_Books.Forms
             }
         }
 
-        private void btnSalvarPDF_Click(object sender, EventArgs e)
+        void btnSalvarPDF_Click(object sender, EventArgs e)
         {
             ExportarPanelEDataGridParaPDF(panelCabecalho, GridViewRelatorioFinanceiro);
         }

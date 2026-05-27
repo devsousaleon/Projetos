@@ -1,14 +1,6 @@
 ﻿using Database_Books.Forms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 
 namespace Database_Books.ControlUser
 {
@@ -23,7 +15,7 @@ namespace Database_Books.ControlUser
         {
             InitializeComponent();
         }
-        private void TelaRelatorios_Load(object sender, EventArgs e)
+        void TelaRelatorios_Load(object sender, EventArgs e)
         {
             BoxStatus.SelectedIndex = 0;
             BoxFormato.SelectedIndex = 0;
@@ -44,7 +36,6 @@ namespace Database_Books.ControlUser
             get {return checkBoxEmprestado.Checked; }
             private set {checkBoxEmprestado.Checked = value; }
         }
-
         public string Status
         {
             get { return BoxStatus.SelectedItem?.ToString(); }
@@ -78,23 +69,23 @@ namespace Database_Books.ControlUser
             private set { DataFimLeitura_2.Text = value; }
         }
 
-        private void DataInicioLeitura_1_ValueChanged(object sender, EventArgs e)
+        void DataInicioLeitura_1_ValueChanged(object sender, EventArgs e)
         {
             DataInicioLeitura_1.Format = DateTimePickerFormat.Short;
             DataInicioLeitura_Format_Atual = true;
         }
-        private void DataInicioLeitura_2_ValueChanged(object sender, EventArgs e)
+        void DataInicioLeitura_2_ValueChanged(object sender, EventArgs e)
         {
             DataInicioLeitura_2.Format = DateTimePickerFormat.Short;
             DataInicioLeitura_Format_Atual = true;
         }
 
-        private void DataFimLeitura_1_ValueChanged(object sender, EventArgs e)
+        void DataFimLeitura_1_ValueChanged(object sender, EventArgs e)
         {
             DataFimLeitura_1.Format = DateTimePickerFormat.Short;
             DataFimLeitura_Format_Atual = true;
         }
-        private void DataFimLeitura_2_ValueChanged(object sender, EventArgs e)
+        void DataFimLeitura_2_ValueChanged(object sender, EventArgs e)
         {
             DataFimLeitura_2.Format = DateTimePickerFormat.Short;
             DataFimLeitura_Format_Atual = true;
@@ -123,22 +114,22 @@ namespace Database_Books.ControlUser
             private set { DataDevolucao_2.Text = value; }
         }
 
-        private void DataEmprestimo_1_ValueChanged(object sender, EventArgs e)
+        void DataEmprestimo_1_ValueChanged(object sender, EventArgs e)
         {
             DataEmprestimo_1.Format = DateTimePickerFormat.Short;
             DataEmprestimo_Format_Atual = true;
         }
-        private void DataEmprestimo_2_ValueChanged(object sender, EventArgs e)
+        void DataEmprestimo_2_ValueChanged(object sender, EventArgs e)
         {
             DataEmprestimo_2.Format = DateTimePickerFormat.Short;
             DataEmprestimo_Format_Atual = true;
         }
-        private void DataDevolucao_1_ValueChanged(object sender, EventArgs e)
+        void DataDevolucao_1_ValueChanged(object sender, EventArgs e)
         {
             DataDevolucao_1.Format = DateTimePickerFormat.Short;
             DataDevolucao_Format_Atual = true;
         }
-        private void DataDevolucao_2_ValueChanged(object sender, EventArgs e)
+        void DataDevolucao_2_ValueChanged(object sender, EventArgs e)
         {
             DataDevolucao_2.Format = DateTimePickerFormat.Short;
             DataDevolucao_Format_Atual = true;
@@ -146,7 +137,7 @@ namespace Database_Books.ControlUser
 
         #endregion
 
-        private void btnExibirInfoRelFinanceiro_Click(object sender, EventArgs e)
+        void btnExibirInfoRelFinanceiro_Click(object sender, EventArgs e)
         {
             if (checkBoxApresentaValorEmprestimo.Checked || checkBoxApresentaValorLivro.Checked)
             {
@@ -156,13 +147,13 @@ namespace Database_Books.ControlUser
             else { MessageBox.Show("Selecione ao menos uma opção para visualizar o relatório!", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Information); return; }
         }
 
-        private void btnExibirInfoRelLivro_Click(object sender, EventArgs e)
+        void btnExibirInfoRelLivro_Click(object sender, EventArgs e)
         {
             RelatorioLivro relatorioLivro = new RelatorioLivro(this);
             relatorioLivro.ShowDialog();
         }
 
-        private void checkBoxEmprestado_CheckedChanged(object sender, EventArgs e)
+        void checkBoxEmprestado_CheckedChanged(object sender, EventArgs e)
         {
             switch (checkBoxEmprestado.Checked)
             {

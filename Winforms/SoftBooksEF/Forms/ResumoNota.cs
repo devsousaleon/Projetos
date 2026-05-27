@@ -1,37 +1,27 @@
 ﻿using Database_Books.ControlUser;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.Identity.Client;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Database_Books.Forms
 {
     public partial class ResumoNota : Form
     {
-        private TelaLivros TL;
+        private readonly TelaLivros _telaLivros;
 
-        public ResumoNota(TelaLivros TL)
+        public ResumoNota(TelaLivros telaLivros)
         {
             InitializeComponent();
-            this.TL = TL;
+            this._telaLivros = telaLivros;
         }
-        private async void ResumoNota_Load(object sender, EventArgs e)
+        async void ResumoNota_Load(object sender, EventArgs e)
         {
             try
             {
                 using (var _context = new DataDbContext())
                 {
                     var CarregarResumoNota = await _context.LeituraLivros
-                        .FirstOrDefaultAsync( x => x.Id == TL.IdSelecionado);
+                        .FirstOrDefaultAsync( x => x.Id == _telaLivros.IdSelecionado);
 
                     txtResumoLivro.Text = CarregarResumoNota?.ResumoLivro;
                     txtAnotacaoLivro.Text = CarregarResumoNota?.Anotacao;
@@ -44,7 +34,7 @@ namespace Database_Books.Forms
             }
         }
 
-        private async void btnSalvarResumoNota_Click(object sender, EventArgs e)
+        async void btnSalvarResumoNota_Click(object sender, EventArgs e)
         {
             string ResumoLivro = null;
             string Anotacao = null;
@@ -60,7 +50,7 @@ namespace Database_Books.Forms
                 using (var _context = new DataDbContext())
                 {
                     var AtualizaResumoNota = await _context.LeituraLivros
-                        .FirstOrDefaultAsync( x => x.Id == TL.IdSelecionado);
+                        .FirstOrDefaultAsync( x => x.Id == _telaLivros.IdSelecionado);
 
                     AtualizaResumoNota.ResumoLivro = ResumoLivro;
                     AtualizaResumoNota.Anotacao = Anotacao;
@@ -78,14 +68,13 @@ namespace Database_Books.Forms
             }
         }
 
-        private void btnCancelarResumoNota_Click(object sender, EventArgs e)
+        void btnCancelarResumoNota_Click(object sender, EventArgs e)
         {
             DialogResult Resul = MessageBox.Show("Deseja fechar esta tela sem salvar as alterações?", "Dúvida", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (Resul == DialogResult.Yes)
             {
                 this.Close();
             }
-        }
-       
+        }       
     }
 }

@@ -1,12 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,17 +10,17 @@ namespace Database_Books
 {
     public partial class EsqueciSenha : Form
     {
-        private FormLogin FL;
+        private readonly FormLogin _formLogin;
 
-        List<string> Perguntas = new List<string>();
+        readonly List<string> _perguntasSeguranca = new List<string>();
 
         public EsqueciSenha(FormLogin formLogin)
         {
             InitializeComponent();
-            FL = formLogin;
+            _formLogin = formLogin;
         }
 
-        private async void EsqueciSenha_Load(object sender, EventArgs e)
+        async void EsqueciSenha_Load(object sender, EventArgs e)
         {
             await PerguntasSenha();
         }
@@ -35,7 +31,7 @@ namespace Database_Books
             {
                 using (var _context = new DataDbContext())
                 {
-                    var consulta = await _context.Usuario.Where(u => u.NomeLogin == FL.TxtNomeUser)
+                    var consulta = await _context.Usuario.Where(u => u.NomeLogin == _formLogin.TxtNomeUser)
                         .Select(u => new
                         {
                             u.PerguntaCachorro,
@@ -46,9 +42,9 @@ namespace Database_Books
 
                     if (consulta != null)
                     {
-                        Perguntas.Add(consulta.PerguntaCachorro);
-                        Perguntas.Add(consulta.PerguntaCidade);
-                        Perguntas.Add(consulta.PerguntaObjeto);
+                        _perguntasSeguranca.Add(consulta.PerguntaCachorro);
+                        _perguntasSeguranca.Add(consulta.PerguntaCidade);
+                        _perguntasSeguranca.Add(consulta.PerguntaObjeto);
                     }
                 }
             }
@@ -62,7 +58,7 @@ namespace Database_Books
         {
             using (var _context = new DataDbContext())
             {
-                var SenhaBanco = await _context.Usuario.FirstOrDefaultAsync(user => user.NomeLogin == FL.TxtNomeUser);
+                var SenhaBanco = await _context.Usuario.FirstOrDefaultAsync(user => user.NomeLogin == _formLogin.TxtNomeUser);
 
                 string novaSenha = txtSenhaNova.Text;
 
@@ -76,7 +72,7 @@ namespace Database_Books
             }
         }
 
-        private async void btnAlterarSenha_Click(object sender, EventArgs e)
+        async void btnAlterarSenha_Click(object sender, EventArgs e)
         {
             try
             {
@@ -92,7 +88,7 @@ namespace Database_Books
                     return;
                 }
 
-                if (Perguntas.Count > 0 && (Perguntas[0].ToString() == BoxPerguntaCachorro.SelectedItem.ToString() && Perguntas[1].ToString() == BoxPerguntaCidade.SelectedItem.ToString() && Perguntas[2].ToString() == BoxPerguntaObjeto.SelectedItem.ToString()))
+                if (_perguntasSeguranca.Count > 0 && (_perguntasSeguranca[0].ToString() == BoxPerguntaCachorro.SelectedItem.ToString() && _perguntasSeguranca[1].ToString() == BoxPerguntaCidade.SelectedItem.ToString() && _perguntasSeguranca[2].ToString() == BoxPerguntaObjeto.SelectedItem.ToString()))
                 {
                     try
                     {
@@ -116,7 +112,7 @@ namespace Database_Books
             }
         }
 
-        private void btnCancelarEsqueciSenha_Click(object sender, EventArgs e)
+        void btnCancelarEsqueciSenha_Click(object sender, EventArgs e)
         {
             this.Close();
         }
