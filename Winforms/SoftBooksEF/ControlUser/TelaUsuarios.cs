@@ -147,7 +147,7 @@ namespace Database_Books.ControlUser
                         NomeUsuario = txtNomeUsuario.Text,
                         NomeLogin = txtNomeLoginUsuario.Text,
                         SenhaLogin = hash,
-                        Bloqueado = "Desbloqueado",
+                        Bloqueado = false,
                         PerguntaCidade = BoxPerguntaCidade.SelectedItem?.ToString(),
                         PerguntaObjeto = BoxPerguntaObjeto.SelectedItem?.ToString(),
                         PerguntaCachorro = BoxPerguntaCachorro.SelectedItem?.ToString()

@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Database_Books
+﻿namespace Database_Books
 {
     public static class ComandosSQL
     {
-        public static string StrConnection = "Server = localhost; Database = BookStation; User id = sa; Password = leon@123;";
+        //public static string StrConnection =
+        //    @"Server=192.168.15.20\SQLDEV;" +
+        //    "Database=BookStation;" +
+        //    "User ID=sa;" +
+        //    "Password=admin@123;" +
+        //    "TrustServerCertificate=True;";
+
+        public static string StrConnection = "Server=192.168.15.20,1433;Database=BookStation;User Id=sa;Password=admin@123;";
 
         #region CadastroLivro
         public static string BuscaCadastroLivro = "select Id, NomeLivro, GeneroLivro, Autor, Formato from CadastroLivro";

@@ -29,55 +29,52 @@ namespace Database_Books
 
         private async void btnAcessar_Click(object sender, EventArgs e)
         {
-            ScreenBook screenBook = new ScreenBook(this);
-            screenBook.Show();
+            string hash = "";
+            bool valido = false;
 
-            //string hash = "";
-            //bool valido = false;
+            if (string.IsNullOrWhiteSpace(txtNomeUser.Text) || string.IsNullOrWhiteSpace(txtSenhaUser.Text))
+            {
+                MessageBox.Show("Há informações faltando ser mencionadas, Usuário ou Senha.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
 
-            //if (string.IsNullOrWhiteSpace(txtNomeUser.Text) || string.IsNullOrWhiteSpace(txtSenhaUser.Text))
-            //{
-            //    MessageBox.Show("Há informações faltando ser mencionadas, Usuário ou Senha.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    return;
-            //}
+            try
+            {
+                using (var _context = new DataDbContext())
+                {
+                    var consulta = await _context.Usuario.FirstOrDefaultAsync(user => user.NomeLogin == txtNomeUser.Text);
 
-            //try
-            //{
-            //    using (var _context = new DataDbContext())
-            //    {
-            //        var consulta = await _context.Usuario.FirstOrDefaultAsync(user => user.NomeLogin == txtNomeUser.Text);
+                    if (consulta != null)
+                    {
+                        hash = consulta.SenhaLogin;
+                        NomeUsuario = consulta.NomeUsuario;
 
-            //        if (consulta != null)
-            //        {
-            //            hash = consulta.SenhaLogin;
-            //            NomeUsuario = consulta.NomeUsuario;
+                        valido = BCrypt.Net.BCrypt.Verify(txtSenhaUser.Text, hash);
 
-            //            valido = BCrypt.Net.BCrypt.Verify(txtSenhaUser.Text, hash);
-
-            //            if (valido)
-            //            {
-            //                this.Hide();
-            //                ScreenBook screenBook = new ScreenBook(this);
-            //                screenBook.Show();
-            //            }
-            //            else
-            //            {
-            //                MessageBox.Show("Usuário ou senha incorreto", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //                txtSenhaUser.Clear();
-            //                txtNomeUser.Focus();
-            //                return;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            MessageBox.Show("Usuário não encontrado.");
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception(ex.Message);
-            //}
+                        if (valido)
+                        {
+                            this.Hide();
+                            ScreenBook screenBook = new ScreenBook(this);
+                            screenBook.Show();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Usuário ou senha incorreto", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtSenhaUser.Clear();
+                            txtNomeUser.Focus();
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Usuário não encontrado.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         private async void btnEsqueciSenha_Click(object sender, EventArgs e)
         {

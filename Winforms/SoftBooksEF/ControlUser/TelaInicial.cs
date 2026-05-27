@@ -21,31 +21,31 @@ namespace Database_Books
 
         private void TelaInicial_Load(object sender, EventArgs e)
         {
-            // INFORMAÇÕES DE LIVROS EM LEITURA
+            //INFORMAÇÕES DE LIVROS EM LEITURA
 
-            //DataTable InfoInicialLeitura = new DataTable();
-            //SqlDataAdapter SqlInfoLeitura = new SqlDataAdapter(ComandosSQL.QueryBuscaLivrosLendo, ComandosSQL.StrConnection);
-            //SqlInfoLeitura.Fill(InfoInicialLeitura);
+            DataTable InfoInicialLeitura = new DataTable();
+            SqlDataAdapter SqlInfoLeitura = new SqlDataAdapter(ComandosSQL.QueryBuscaLivrosLendo, ComandosSQL.StrConnection);
+            SqlInfoLeitura.Fill(InfoInicialLeitura);
 
-            //GridViewInfoLeitura.Rows.Clear();
+            GridViewInfoLeitura.Rows.Clear();
 
-            //foreach (DataRow linha in InfoInicialLeitura.Rows)
-            //{
-            //    GridViewInfoLeitura.Rows.Add(linha.ItemArray);
-            //}
+            foreach (DataRow linha in InfoInicialLeitura.Rows)
+            {
+                GridViewInfoLeitura.Rows.Add(linha.ItemArray);
+            }
 
-            //// INFORMAÇÕES DE EMPRÉSTIMO
+            // INFORMAÇÕES DE EMPRÉSTIMO
 
-            //DataTable InfoInicialEmprestimo = new DataTable();
-            //SqlDataAdapter SqlInfoEmprestimo = new SqlDataAdapter(ComandosSQL.QueryBuscaLivrosEmprestimo, ComandosSQL.StrConnection);
-            //SqlInfoEmprestimo.Fill(InfoInicialEmprestimo);
+            DataTable InfoInicialEmprestimo = new DataTable();
+            SqlDataAdapter SqlInfoEmprestimo = new SqlDataAdapter(ComandosSQL.QueryBuscaLivrosEmprestimo, ComandosSQL.StrConnection);
+            SqlInfoEmprestimo.Fill(InfoInicialEmprestimo);
 
-            //GridViewInfoEmprestimo.Rows.Clear();
+            GridViewInfoEmprestimo.Rows.Clear();
 
-            //foreach (DataRow linha in InfoInicialEmprestimo.Rows)
-            //{
-            //    GridViewInfoEmprestimo.Rows.Add(linha.ItemArray);
-            //}
+            foreach (DataRow linha in InfoInicialEmprestimo.Rows)
+            {
+                GridViewInfoEmprestimo.Rows.Add(linha.ItemArray);
+            }
         }
     }
 }
