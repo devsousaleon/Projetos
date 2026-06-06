@@ -1,19 +1,16 @@
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour, IDamageable
+public class SlimeHealth : MonoBehaviour, IDamageable
 {
-    public bool IsDead { get; set; }
-
     [SerializeField] float _health;
-    
-    PlayerAnimation _playerAnim;
 
-    public static PlayerHealth InstancePlayerHealth;
+    public bool IsDead { get; set; } = false;
+
+    SlimeAnimation _slimeAnimation;
 
     void Awake()
     {
-        InstancePlayerHealth = this;
-        _playerAnim = GetComponent<PlayerAnimation>();
+        _slimeAnimation = GetComponent<SlimeAnimation>();
     }
 
     public void TakeDamage(int damage)
@@ -21,19 +18,21 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (!IsDead)
         {            
             _health -= damage;
+
             if (_health <= 0)
             {
                 IsDead = true;
                 _health = 0;
-                _playerAnim.AnimationDead();
+                _slimeAnimation.AnimationDeath();
                 return;
             }
-            _playerAnim.AnimationHit();
+            _slimeAnimation.AnimationDamage();
         }
     }
+
     public void EventAnimationDeath()
     {
-        
-        gameObject.SetActive(false);        
+        gameObject.SetActive(false);
+        Destroy(gameObject, 2f);
     }
 }

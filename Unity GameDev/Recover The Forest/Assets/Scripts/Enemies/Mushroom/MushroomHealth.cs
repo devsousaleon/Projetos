@@ -4,7 +4,7 @@ public class MushroomHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] float _health;
 
-    public bool IsDead { get; set; }
+    public bool IsDead { get; set; } = false;
 
     MushroomAnimation _mushroomAnimation;
 
@@ -16,8 +16,7 @@ public class MushroomHealth : MonoBehaviour, IDamageable
     public void TakeDamage(int damage)
     {
         if (!IsDead)
-        {
-            _mushroomAnimation.AnimationDamage();
+        {            
             _health -= damage;
 
             if (_health <= 0)
@@ -25,7 +24,9 @@ public class MushroomHealth : MonoBehaviour, IDamageable
                 _health = 0;
                 IsDead = true;
                 _mushroomAnimation.AnimationDeath();
+                return;
             }
+            _mushroomAnimation.AnimationDamage();
         }
     }
 

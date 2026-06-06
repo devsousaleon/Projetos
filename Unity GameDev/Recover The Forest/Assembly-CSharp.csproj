@@ -48,11 +48,20 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.62f3\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Enemies\Slime\SlimeMovement.cs" />
     <Compile Include="Assets\Scripts\Enemies\Mushroom\MushroomAttack.cs" />
     <Compile Include="Assets\Scripts\Interface\IDamageable.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Goblin\GoblinHealth.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Slime\SlimeAttack.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Slime\SlimeHealth.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Slime\SlimeAnimation.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Goblin\GoblinAttack.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\Enemies\Mushroom\MushroomDistancePlayer.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Goblin\GoblinAnimation.cs" />
     <Compile Include="Assets\Scripts\Enemies\Mushroom\MushroomAnimation.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Goblin\GoblinMovement.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Goblin\GoblinDistancePlayer.cs" />
     <Compile Include="Assets\Scripts\Enemies\Mushroom\MushroomHealth.cs" />
     <Compile Include="Assets\Scripts\Enemies\Mushroom\MushroomMovement.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerAttacking.cs" />
