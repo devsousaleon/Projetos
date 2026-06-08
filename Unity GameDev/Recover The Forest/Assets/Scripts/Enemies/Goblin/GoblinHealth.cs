@@ -28,4 +28,10 @@ public class GoblinHealth : MonoBehaviour, IDamageable
         }
         _goblinAnimation.AnimationHit();
     }
+
+    public void EventAnimationDeath()
+    {
+        gameObject.SetActive(false);
+        Destroy(gameObject, 2f);
+    }
 }
