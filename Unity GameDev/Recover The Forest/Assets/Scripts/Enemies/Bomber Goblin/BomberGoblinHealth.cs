@@ -1,18 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BomberGoblinHealth : MonoBehaviour
+public class BomberGoblinHealth : MonoBehaviour, IDamageable
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] float _health;
+
+    public bool IsDead { get; set; } = false;
+
+    BomberGoblinAnimation _bomberGoblinAnimation;
+
+    void Awake()
     {
-        
+        _bomberGoblinAnimation = GetComponent<BomberGoblinAnimation>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage(int damage)
     {
-        
+        if (!IsDead)
+        {
+            _health -= damage;
+
+            if (_health <= 0)
+            {
+                _health = 0;
+                IsDead = true;
+                _bomberGoblinAnimation.AnimationDeath();
+                return;
+            }
+            _bomberGoblinAnimation.AnimationDamage();
+        }
+    }
+
+    public void EventAnimationDeath()
+    {
+        gameObject.SetActive(false);
+        Destroy(gameObject, 2f);
     }
 }

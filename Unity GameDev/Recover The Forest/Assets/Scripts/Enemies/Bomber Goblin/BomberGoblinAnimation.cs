@@ -1,18 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BomberGoblinAnimation : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    Animator _anim;
+    void Awake()
     {
-        
+        _anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AnimationDeath()
     {
-        
+        _anim.SetTrigger("death");
+    }
+
+    public void AnimationDamage()
+    {
+        _anim.SetTrigger("hit");
+    }
+    public void AnimationAttack()
+    {
+        _anim.SetTrigger("attack");
     }
 }

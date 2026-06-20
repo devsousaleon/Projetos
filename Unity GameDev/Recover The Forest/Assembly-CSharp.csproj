@@ -51,11 +51,13 @@
     <Compile Include="Assets\Scripts\Enemies\Worm\WormAttack.cs" />
     <Compile Include="Assets\Scripts\Enemies\Worm\WormHealth.cs" />
     <Compile Include="Assets\Scripts\Enemies\Slime\SlimeMovement.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Bomber Goblin\BombAction_BomberGoblin.cs" />
     <Compile Include="Assets\Scripts\Enemies\Mushroom\MushroomAttack.cs" />
     <Compile Include="Assets\Scripts\Interface\IDamageable.cs" />
     <Compile Include="Assets\Scripts\Enemies\Goblin\GoblinHealth.cs" />
     <Compile Include="Assets\Scripts\Enemies\Slime\SlimeAttack.cs" />
     <Compile Include="Assets\Scripts\Enemies\Bomber Goblin\BomberGoblinHealth.cs" />
+    <Compile Include="Assets\Scripts\Enemies\PurpleFly\PurpleFlyMovement.cs" />
     <Compile Include="Assets\Scripts\Enemies\Bomber Goblin\BomberGoblinAnimation.cs" />
     <Compile Include="Assets\Scripts\Enemies\Slime\SlimeHealth.cs" />
     <Compile Include="Assets\Scripts\Enemies\Worm\WormAnimation.cs" />
