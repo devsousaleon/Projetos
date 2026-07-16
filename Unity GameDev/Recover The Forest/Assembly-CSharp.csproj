@@ -50,8 +50,10 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Enemies\Worm\WormAttack.cs" />
     <Compile Include="Assets\Scripts\Enemies\Worm\WormHealth.cs" />
+    <Compile Include="Assets\Scripts\Enemies\PurpleFly\PurpleFlyAnimation.cs" />
     <Compile Include="Assets\Scripts\Enemies\Slime\SlimeMovement.cs" />
     <Compile Include="Assets\Scripts\Enemies\Bomber Goblin\BombAction_BomberGoblin.cs" />
+    <Compile Include="Assets\Scripts\Enemies\PurpleFly\PurpleFlyHealth.cs" />
     <Compile Include="Assets\Scripts\Enemies\Mushroom\MushroomAttack.cs" />
     <Compile Include="Assets\Scripts\Interface\IDamageable.cs" />
     <Compile Include="Assets\Scripts\Enemies\Goblin\GoblinHealth.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Assets\Scripts\Enemies\Worm\WormAnimation.cs" />
     <Compile Include="Assets\Scripts\Enemies\Slime\SlimeAnimation.cs" />
     <Compile Include="Assets\Scripts\Enemies\Goblin\GoblinAttack.cs" />
+    <Compile Include="Assets\Scripts\Enemies\PurpleFly\PurpleFlyAttack.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\Enemies\Mushroom\MushroomDistancePlayer.cs" />
     <Compile Include="Assets\Scripts\Enemies\Goblin\GoblinAnimation.cs" />
