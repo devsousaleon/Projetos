@@ -131,7 +131,7 @@ MonoBehaviour:
     m_Bits: 8
   _speed: 5
   _radiusGroundDetector: 0.05
-  _jumpImpulse: 8
+  _jumpImpulse: 8.5
 --- !u!114 &4227389949038094922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,7 +330,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 625337135, guid: 5094f2542202c1742a5d597741bf4b22, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -1,10 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEditor;
-using Unity.VisualScripting;
+using UnityEngine.UI;
 
 public class Menu_Controller : MonoBehaviour
 {
@@ -25,31 +22,31 @@ public class Menu_Controller : MonoBehaviour
         MapaRua.isOn = Game_Mode_Controller.MapaRua;
         Dia.isOn = Game_Mode_Controller.Dia;
     }
+
     #region OpenMenus
     public void OpenGameMenu()
-    {
-        GameMenu.SetActive(true);
-    }
+        => GameMenu.SetActive(true);
+
     public void OpenOptionsMenu()
-    {
-        OptionsMenu.SetActive(true);
-    }
+        => OptionsMenu.SetActive(true);
     #endregion
+
     #region CloseMenus
     public void CloseGameMenu()
-    {
-        GameMenu.SetActive(false);
-    }
-    public void CloseOptionsMenu() 
-    {
-        OptionsMenu.SetActive(false);
-    }
+        => GameMenu.SetActive(false);
+
+    public void CloseOptionsMenu()
+        => OptionsMenu.SetActive(false);
+
     public void ExitGame()
     {
-        Application.Quit();
-        //UnityEditor.EditorApplication.isPlaying = false;
+        if(Debug.isDebugBuild)
+            UnityEditor.EditorApplication.isPlaying = false;
+        else
+            Application.Quit();
     }
     #endregion
+
     #region CarregarMapas
 
     public void FieldToggle()
@@ -57,26 +54,18 @@ public class Menu_Controller : MonoBehaviour
         Game_Mode_Controller.MapaCampo = MapaCampo.isOn;
 
         if (Game_Mode_Controller.MapaCampo && !Game_Mode_Controller.MapaRua)
-        {
             Controller_Field.SetActive(true);
-        }
         else
-        {
             Controller_Field.SetActive(false);
-        }
     }
     public void StreetToggle()
     {
         Game_Mode_Controller.MapaRua = MapaRua.isOn;
 
         if (Game_Mode_Controller.MapaRua && !Game_Mode_Controller.MapaCampo)
-        {
             Controller_Street.SetActive(true);
-        }
         else
-        {
             Controller_Street.SetActive(false);
-        }
     }
 
 
@@ -84,32 +73,21 @@ public class Menu_Controller : MonoBehaviour
     {
         Game_Mode_Controller.Chuva = Chuva.isOn;
 
-        if (Chuva.isOn)
-        {
-            SceneManager.LoadScene("Stadium_Field");
-        }
-        else
-        {
-            SceneManager.LoadScene("Stadium_Field");
-        }
+        SceneManager.LoadScene("Stadium_Field");
     }
+
     public void StartGameStreet()
     {
         Game_Mode_Controller.Noite = Noite.isOn;
         Game_Mode_Controller.Dia = Dia.isOn;
 
-        if (Dia.isOn && !Noite.isOn)
-        {
-            SceneManager.LoadScene("Stadium_Street");
-        }
-        else if(Noite.isOn && !Dia.isOn)
-        {
-            SceneManager.LoadScene("Stadium_Street");
-        }
-        else if (Dia.isOn && Noite.isOn)
+        if (Dia.isOn && Noite.isOn)
         {
             StartCoroutine(AvisoTempo());
+            return;
         }
+
+        SceneManager.LoadScene("Stadium_Street");
     }
 
     IEnumerator AvisoTempo()

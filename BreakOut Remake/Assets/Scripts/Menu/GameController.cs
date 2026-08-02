@@ -1,40 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
 
 public class GameController : MonoBehaviour
 {
     public int HighScore { get; set; }
-    public TMP_Text HighScorePoint;
-    public TMP_Text HighScorePointInGame;
-    public GameObject ScreenEndGame;
     public bool EndGame { get; private set; }
 
-    public static GameController GC;
+    public TMP_Text HighScorePoint;
+    public TMP_Text HighScorePointInGame;
+    public GameObject ScreenEndGame;    
+
+    public static GameController InstanceGameController;
+
     void Awake()
-    {
-        GC = this;
-    }
+        => InstanceGameController = this;
+
     void Update()
-    {
-        ResetGame();
-    }
+        => ResetGame();
+
     void ResetGame()
     {
-        if (Ball.ball.QuantObject <= 0)
+        if (Ball.InstanceBall.QuantityBlocks <= 0)
         {
             ScreenEndGame.SetActive(true);
             EndGame = true;
         }
     }
+
+    public void UpdateHighScore(int pointHighScore)
+    {
+        HighScore += pointHighScore;
+        HighScorePoint.text = GameController.InstanceGameController.HighScore.ToString();
+        HighScorePointInGame.text = GameController.InstanceGameController.HighScore.ToString();
+    }
+
     public void RestartGame()
-    {
-        SceneManager.LoadScene("Mode_1");
-    }
+        => SceneManager.LoadScene("Mode_1");
+
     public void Menu()
-    {
-        SceneManager.LoadScene("Menu");
-    }
+        => SceneManager.LoadScene("Menu");
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -7,10 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class UI_Controller : MonoBehaviour
 {
-    float timecount;
-    float Pontuacao_P1;
-    float Pontuacao_P2;
-    int Index;
+    float _timeCount;
+    float _pontuacaoPlayer1;
+    float _pontuacaoPlayer2;
+    int _indexSceneManager;
 
     public TMP_Text Pont_P1;
     public TMP_Text Pont_P2;
@@ -26,32 +24,31 @@ public class UI_Controller : MonoBehaviour
     public Light2D PedestrialSignal_2;
     public Light2D GlobalLight;
 
-    public float _Ponto_P1 { get => Pontuacao_P1; set => Pontuacao_P1 = value; }
-    public float _Ponto_P2 { get => Pontuacao_P2; set => Pontuacao_P2 = value; }
+    public float Ponto_Player1 { get => _pontuacaoPlayer1; set => _pontuacaoPlayer1 = value; }
+    public float Ponto_Player2 { get => _pontuacaoPlayer2; set => _pontuacaoPlayer2 = value; }
     public bool EndGame {  get; private set; }
 
-    public static UI_Controller _Controller;
+    public static UI_Controller InstanceUIController;
+
     void Awake()
-    {
-        _Controller = this;
-    }
+        => InstanceUIController = this;
+
     void Start()
     {
-        Index = SceneManager.GetActiveScene().buildIndex;
-        if (Index == 1)
-        {
+        _indexSceneManager = SceneManager.GetActiveScene().buildIndex;
+
+        if (_indexSceneManager == 1)
             ActiveEffectField();
-        }
-        if (Index == 2)
-        {
+
+        else
             ActiveEffectStreet();
-        }
     }
+
     void Update()
     {
-        Pont_P1.text = Pontuacao_P1.ToString();
-        Pont_P2.text = Pontuacao_P2.ToString();
-        if (Pontuacao_P1 == 2)
+        Pont_P1.text = _pontuacaoPlayer1.ToString();
+        Pont_P2.text = _pontuacaoPlayer2.ToString();
+        if (_pontuacaoPlayer1 == 2)
         {
             EndGame = true;
             ScreenEndGame.SetActive(true);
@@ -62,7 +59,7 @@ public class UI_Controller : MonoBehaviour
             SpotLight_4.intensity = 0.5f;
             GlobalLight.intensity = 0.1f;
         }
-        if (Pontuacao_P2 == 2)
+        if (_pontuacaoPlayer2 == 2)
         {
             EndGame = true;
             ScreenEndGame.SetActive(true);
@@ -74,17 +71,15 @@ public class UI_Controller : MonoBehaviour
             GlobalLight.intensity = 0.1f;
         }
         if (Game_Mode_Controller.Noite)
-        {
             PedestrialSignal_Blink();
-        }
     }
+
     void ActiveEffectField()
     {
         if (Game_Mode_Controller.Chuva)
-        {
             Particle_Rain.SetActive(true);
-        }
     }
+
     void ActiveEffectStreet()
     {
         if (Game_Mode_Controller.Dia)
@@ -104,35 +99,34 @@ public class UI_Controller : MonoBehaviour
             SpotLight_4.intensity = 1;
         }
     }
+
     void PedestrialSignal_Blink()
     {
-        timecount += Time.deltaTime;
-        if (timecount >= 1f)
+        _timeCount += Time.deltaTime;
+        if (_timeCount >= 1f)
         {
             PedestrialSignal_1.color = Color.red;
             PedestrialSignal_2.color = Color.red;
             PedestrialSignal_1.intensity = 1f;
             PedestrialSignal_2.intensity = 1f;
             
-            if (timecount >= 2f)
+            if (_timeCount >= 2f)
             {
                 PedestrialSignal_1.color = Color.green;
                 PedestrialSignal_2.color = Color.green;
             }
-            if (timecount >= 3f)
+            if (_timeCount >= 3f)
             {
                 PedestrialSignal_1.intensity = 0f;
                 PedestrialSignal_2.intensity = 0f;
-                timecount = 0f;
+                _timeCount = 0f;
             }
         }        
     }
+
     public void RestartGame()
-    {
-        SceneManager.LoadScene(Index);
-    }
+        => SceneManager.LoadScene(_indexSceneManager);
+
     public void MenuGame()
-    {
-        SceneManager.LoadScene("Menu");
-    }
+        => SceneManager.LoadScene("Menu");
 }

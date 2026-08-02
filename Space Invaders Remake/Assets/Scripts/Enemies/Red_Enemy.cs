@@ -1,44 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Red_Enemy : MonoBehaviour
 {
-    float TimeCount;
-    public Vector2 Position;
-    public float Velocity { get; set; } = 0.3f;
+    float _timeCount;
 
-    public static Red_Enemy RE;
+    public Vector2 Position;
+
+    public float Speed { get; set; } = 0.3f;
+
+    public static Red_Enemy InstanceRedEnemy;
+
     void Awake()
     {
-        RE = this;
+        InstanceRedEnemy = this;
         Position = transform.position;
     }
 
     void Update()
     {
-        if (!GameController.GC.EndGame)
+        if (!GameController.InstanceGameController.EndGame)
         {
-            TimeCount += Time.deltaTime;
+            _timeCount += Time.deltaTime;
 
-            if (TimeCount >= 1f)
+            if (_timeCount >= 1f)
             {
-                Position.x += Velocity;
+                Position.x += Speed;
                 transform.position = Position;
-                TimeCount = 0f;
+                _timeCount = 0f;
             }
-        }        
+        }  
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 6)
-        {
+        if (collision.gameObject.layer == 6 || collision.CompareTag("Player"))
             Destroy(collision.gameObject);
-        }
-        if (collision.CompareTag("Player"))
-        {
-            Destroy(collision.gameObject);
-        }
     }
 }

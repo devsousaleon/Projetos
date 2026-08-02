@@ -373,14 +373,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameMenu: {fileID: 1108095954}
   OptionsMenu: {fileID: 578003757}
-  Controller_Field: {fileID: 778301073}
-  Controller_Street: {fileID: 958582071}
+  Controller_Field: {fileID: 958582071}
+  Controller_Street: {fileID: 778301073}
   Aviso: {fileID: 559515742}
   Dia: {fileID: 202820720}
   Noite: {fileID: 351933979}
   Chuva: {fileID: 1111389664}
-  MapaCampo: {fileID: 493256351}
-  MapaRua: {fileID: 718846564}
+  MapaCampo: {fileID: 718846564}
+  MapaRua: {fileID: 493256351}
 --- !u!1 &121074676
 GameObject:
   m_ObjectHideFlags: 0
@@ -1110,7 +1110,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 85076085}
         m_TargetAssemblyTypeName: Menu_Controller, Assembly-CSharp
-        m_MethodName: FieldToggle
+        m_MethodName: StreetToggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2302,7 +2302,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 85076085}
         m_TargetAssemblyTypeName: Menu_Controller, Assembly-CSharp
-        m_MethodName: StreetToggle
+        m_MethodName: FieldToggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3317,7 +3317,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1108095955
 RectTransform:
   m_ObjectHideFlags: 0

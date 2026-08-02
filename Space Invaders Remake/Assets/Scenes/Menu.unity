@@ -720,8 +720,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c98804de3f10b114d95f77bf7b2d83c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OptionsMenu: {fileID: 606078439}
-  StartGameMenu: {fileID: 893725453}
+  _optionsMenu: {fileID: 606078439}
+  _startGameMenu: {fileID: 893725453}
 --- !u!4 &827566607
 Transform:
   m_ObjectHideFlags: 0

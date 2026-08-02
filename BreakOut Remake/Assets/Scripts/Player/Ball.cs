@@ -1,56 +1,62 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    int SpeedX = 5;
-    int MultiX;
-    public int QuantObject { get; set; } = 60;
+    int _directionInitialMoveX;
     bool BtnPressed;
 
-    Rigidbody2D rig;
-    Vector2 pos;
+    [SerializeField] int _speedMoveX;
+    [SerializeField] int _speedMoveY;
+    [SerializeField] int _valueHighScore;
 
-    public static Ball ball;
+    public int QuantityBlocks { get; set; } = 60;
+    
+    Rigidbody2D _rig;
+    Vector2 _position;
+
+    public static Ball InstanceBall;
+
     void Awake()
     {
-        ball = this;
-        rig = GetComponent<Rigidbody2D>();
-        MultiX = Random.Range(1, 3) == 1 ? 1 : -1;
+        InstanceBall = this;
+        _rig = GetComponent<Rigidbody2D>();
+    }
+
+    void Start()
+    {
         BtnPressed = false;
-        pos = transform.position;
-    }    
+        _directionInitialMoveX = Random.Range(1, 3) == 1 ? 1 : -1;        
+        _position = transform.position;
+    }
+
     void Update()
     {
-        if (!BtnPressed && Input.GetKeyDown(KeyCode.UpArrow) && !GameController.GC.EndGame)
+        if (!BtnPressed && Input.GetKeyDown(KeyCode.UpArrow) && !GameController.InstanceGameController.EndGame)
         {
-            rig.velocity = new Vector2(SpeedX * MultiX, 3);
+            _rig.velocity = new Vector2(_speedMoveX * _directionInitialMoveX, _speedMoveY);
             BtnPressed = true;
         }
     }
+
     void EndMap()
     {
-        MultiX = Random.Range(1, 3) == 1 ? 1 : -1;
-        transform.position = pos;
-        Player.player.transform.position = Player.player.pos;
+        _directionInitialMoveX = Random.Range(1, 3) == 1 ? 1 : -1;
+        transform.position = _position;
+        Player.InstancePlayer.transform.position = Player.InstancePlayer.Position;
         BtnPressed = false;
-        rig.velocity = Vector2.zero;
+        _rig.velocity = Vector2.zero;
     }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == 6)
         {
             Destroy(collision.gameObject);
-            GameController.GC.HighScore += 50;
-            GameController.GC.HighScorePoint.text = GameController.GC.HighScore.ToString();
-            GameController.GC.HighScorePointInGame.text = GameController.GC.HighScore.ToString();
-            QuantObject--;
+            GameController.InstanceGameController.UpdateHighScore(_valueHighScore);
+            QuantityBlocks--;            
         }
+
         if (collision.gameObject.layer == 7)
-        {
             EndMap();
-        }
     }
 }

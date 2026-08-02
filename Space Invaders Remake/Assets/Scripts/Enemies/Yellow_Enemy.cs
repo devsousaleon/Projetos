@@ -1,44 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Yellow_Enemy : MonoBehaviour
 {
-    float TimeCount;
-    public Vector2 Position;
-    public float Velocity { get; set; } = 0.1f;
+    float _timeCount;
 
-    public static Yellow_Enemy YE;
+    public Vector2 _positionInScene;
+
+    public float Speed { get; set; } = 0.1f;
+
+    public static Yellow_Enemy InstanceYellowEnemy;
     void Awake()
     {
-        YE = this;
-        Position = transform.position;
+        InstanceYellowEnemy = this;
+        _positionInScene = transform.position;
     }
 
     void Update()
     {
-        if (!GameController.GC.EndGame)
+        if (!GameController.InstanceGameController.EndGame)
         {
-            TimeCount += Time.deltaTime;
+            _timeCount += Time.deltaTime;
 
-            if (TimeCount >= 1f)
+            if (_timeCount >= 1f)
             {
-                Position.x += Velocity;
-                transform.position = Position;
-                TimeCount = 0f;
+                _positionInScene.x += Speed;
+                transform.position = _positionInScene;
+                _timeCount = 0f;
             }
         }        
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 6)
-        {
+        if (collision.gameObject.layer == 6 || collision.CompareTag("Player"))
             Destroy(collision.gameObject);
-        }
-        if (collision.CompareTag("Player"))
-        {
-            Destroy(collision.gameObject);
-        }
     }
 }

@@ -1,42 +1,35 @@
-
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
-    public GameObject OptionsMenu;
-    public GameObject StartGameMenu;
+    [SerializeField] GameObject _optionsMenu;
+    [SerializeField] GameObject _startGameMenu;
 
     #region StartMenu
     public void StartGame()
-    {
-        SceneManager.LoadScene("Mode_1");
-    }
+        => SceneManager.LoadScene("Mode_1");
+
     public void OpenStartGame()
-    {
-        StartGameMenu.SetActive(true);
-    }
+        => _startGameMenu.SetActive(true);
+
     public void CloseStartGame()
-    {
-        StartGameMenu.SetActive(false);
-    }
+        => _startGameMenu.SetActive(false);
     #endregion
+
     #region OPTIONS
     public void OpenOptions()
-    {
-        OptionsMenu.SetActive(true);
-    }
+        => _optionsMenu.SetActive(true);
+
     public void CloseOptions()
-    {
-        OptionsMenu.SetActive(false);
-    }
+        => _optionsMenu.SetActive(false);
     #endregion
+
     public void CloseGame()
     {
-        Application.Quit();
-        //UnityEditor.EditorApplication.isPlaying = false;
+        if(Debug.isDebugBuild)
+            UnityEditor.EditorApplication.isPlaying = false;
+        else
+            Application.Quit();
     }
 }

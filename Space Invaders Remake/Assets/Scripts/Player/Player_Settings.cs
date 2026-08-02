@@ -1,47 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 public class Player_Settings : MonoBehaviour
 {
-    float TimeCount;
-    public int Health { get; set; } = 3;
-    [SerializeField] int Velocity;
+    float _timeCount;
 
-    [SerializeField] GameObject Bullet;
-    [SerializeField] Transform Bullet_Spawn;
-    Rigidbody2D rig;
+    public int Health { get => _health; set => _health = value; }
 
-    public static Player_Settings Player;
+    [SerializeField] int _speed;
+    [SerializeField] int _health;
+
+    [SerializeField] GameObject _bullet;
+    [SerializeField] Transform _bulletSpawn;
+    
+    Rigidbody2D _rig;
+
+    public static Player_Settings InstancePlayer;
+
     void Awake()
     {
-        Player = this;
-        rig = GetComponent<Rigidbody2D>();
+        InstancePlayer = this;
+        _rig = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
         Death();
-        if (!GameController.GC.EndGame)
-        {
-            TimeCount += Time.deltaTime;
-            if (TimeCount >= 1f && Input.GetMouseButtonDown(0))
-            {
-                Instantiate(Bullet, Bullet_Spawn.position, Bullet_Spawn.rotation);
-                TimeCount = 0f;
-            }
-        }              
+        Shoot();
     }
 
     void FixedUpdate()
+        => Movement();
+
+    void Movement()
     {
-        if (!GameController.GC.EndGame)
+        if (!GameController.InstanceGameController.EndGame)
         {
             float movement = Input.GetAxis("Horizontal");
-            rig.velocity = new Vector2(movement * Velocity, rig.velocity.y);
+            _rig.velocity = new Vector2(movement * _speed, _rig.velocity.y);
         }
-        
+    }
+
+    void Shoot()
+    {
+        if (!GameController.InstanceGameController.EndGame)
+        {
+            _timeCount += Time.deltaTime;
+            if (_timeCount >= 1f && Input.GetMouseButtonDown(0))
+            {
+                Instantiate(_bullet, _bulletSpawn.position, _bulletSpawn.rotation);
+                _timeCount = 0f;
+            }
+        }
     }
 
     void Death()
@@ -49,10 +58,8 @@ public class Player_Settings : MonoBehaviour
         if (Health <= 0)
         {
             Health = 0;
-            Destroy(gameObject);
-            GameController.GC.EndGameScreen.SetActive(true);
-            GameController.GC.Loser.SetActive(true);
-            GameController.GC.EndGame = true;
+            GameController.InstanceGameController.ShowEndGame();
+            Destroy(gameObject);            
         }
     }
 }

@@ -1,27 +1,23 @@
-
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet_Player : MonoBehaviour
 {
-    [SerializeField] int Velocity;
+    [SerializeField] int _speed;
 
-    Rigidbody2D rig;
+    Rigidbody2D _rig;
     
     void Awake()
-    {
-        rig = GetComponent<Rigidbody2D>();
-    }
+        => _rig = GetComponent<Rigidbody2D>();
 
     void Start()
     {
-        if (!GameController.GC.EndGame)
+        if (!GameController.InstanceGameController.EndGame)
         {
-            rig.velocity = new Vector2(rig.velocity.x, Velocity);
+            _rig.velocity = new Vector2(_rig.velocity.x, _speed);
             Destroy(gameObject, 3f);
         }            
     }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         switch (collision.gameObject.layer)
@@ -30,19 +26,11 @@ public class Bullet_Player : MonoBehaviour
                 Destroy(gameObject);                
                 break;
             case 7:
-                Destroy(collision.gameObject);
-                Destroy(gameObject);
-                GameController.GC.EnemyAmount--;
-                break;
             case 8:
-                Destroy(collision.gameObject);
-                Destroy(gameObject);
-                GameController.GC.EnemyAmount--;
-                break;
             case 9:
                 Destroy(collision.gameObject);
                 Destroy(gameObject);
-                GameController.GC.EnemyAmount--;
+                GameController.InstanceGameController.EnemyAmount--;
                 break;
         }
     }

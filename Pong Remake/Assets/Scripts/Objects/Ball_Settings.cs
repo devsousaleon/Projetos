@@ -1,74 +1,73 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Ball_Settings : MonoBehaviour
 {
-    float Velocity = 6;
-    float OriginalVelocity;
-    float timecount;
-    int xValue;
-    int yValue;    
-    bool Respawn;
+    float _speed = 6;
+    float _originalVelocity;
+    float _timeCount;
+    int _xValue;
+    int _yValue;    
+    bool _respawnBall;
 
-    Rigidbody2D rig;
-    Vector2 OriginalPosition;
+    Rigidbody2D _rig;
+    Vector2 _originalPosition;
 
     void Awake()
     {
-        rig = GetComponent<Rigidbody2D>();
-        OriginalPosition = transform.position;
-        OriginalVelocity = Velocity;
+        _rig = GetComponent<Rigidbody2D>();
+        _originalPosition = transform.position;
+        _originalVelocity = _speed;
     }
 
     void Start()
+        => BallMovement();
+
+    void Update()
     {
-        BallMovement();
+        if (_respawnBall)
+            RespawnBall();
     }
-    private void Update()
-    {
-        if (Respawn){RespawnBall();}
-    }
+
     void BallMovement()
     {
-        if (UI_Controller._Controller.EndGame)
-        {
-            rig.velocity = Vector2.zero;
-        }
+        if (UI_Controller.InstanceUIController.EndGame)
+            _rig.velocity = Vector2.zero;
+
         else
         {
-            xValue = Random.Range(2, 4) == 2 ? 1 : -1;
-            yValue = Random.Range(-1, 2);
-            rig.velocity = new Vector2(Velocity * xValue, Velocity * yValue);
+            _xValue = Random.Range(2, 4) == 2 ? 1 : -1;
+            _yValue = Random.Range(-1, 2);
+            _rig.velocity = new Vector2(_speed * _xValue, _speed * _yValue);
         }        
-    }  
+    } 
+    
     void RespawnBall()
     {
-        transform.position = OriginalPosition;
-        Velocity = 0;
-        timecount += Time.deltaTime;
+        transform.position = _originalPosition;
+        _speed = 0;
+        _timeCount += Time.deltaTime;
 
-        if (timecount >= 1f)
+        if (_timeCount >= 1f)
         {
-            Velocity = OriginalVelocity;
+            _speed = _originalVelocity;
             BallMovement();            
-            Respawn = false;
-            timecount = 0;
+            _respawnBall = false;
+            _timeCount = 0;
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    void OnCollisionEnter2D(Collision2D collision)
     {
         switch (collision.gameObject.layer)
         {
             case 6:
-                UI_Controller._Controller._Ponto_P1++;
-                Respawn = true;
+                UI_Controller.InstanceUIController.Ponto_Player1++;
+                _respawnBall = true;
                 break;
 
             case 7:
-                UI_Controller._Controller._Ponto_P2++;
-                Respawn = true;
+                UI_Controller.InstanceUIController.Ponto_Player2++;
+                _respawnBall = true;
                 break;
         }
     }
